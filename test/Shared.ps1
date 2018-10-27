@@ -1,4 +1,4 @@
-#Requires -Modules Pester
+#requires -modules Pester
 
 $here = Split-Path -Parent -Path $MyInvocation.MyCommand.Path -ErrorAction Stop
 if (Test-Path -Path (Join-Path -Path $here -ChildPath 'helpers')) {

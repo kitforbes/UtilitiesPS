@@ -1,112 +1,114 @@
 @{
 
     # Script module or binary module file associated with this manifest.
-    RootModule    = 'UtilitiesPS.psm1'
+    RootModule        = 'UtilitiesPS.psm1'
 
     # Version number of this module.
-    ModuleVersion = '0.0.0'
+    ModuleVersion     = '0.0.0'
 
     # Supported PSEditions
-    # CompatiblePSEditions = @()
+    # CompatiblePSEditions   = @()
 
     # ID used to uniquely identify this module
-    GUID          = ''
+    GUID              = 'db2b45da-fe64-4d8b-b15e-da9a5f73b8e9'
 
     # Author of this module
-    Author        = ''
+    Author            = 'Chris Forbes'
 
     # Company or vendor of this module
-    CompanyName   = ''
+    CompanyName       = 'Chris Forbes'
 
     # Copyright statement for this module
-    Copyright     = '(c) 2018 All rights reserved.'
+    Copyright         = '(c) 2018 Chris Forbes. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description   = ''
+    Description       = 'A collection of utility functions.'
 
     # Minimum version of the Windows PowerShell engine required by this module
-    # PowerShellVersion = ''
+    # PowerShellVersion      = ''
 
     # Name of the Windows PowerShell host required by this module
-    # PowerShellHostName = ''
+    # PowerShellHostName     = ''
 
     # Minimum version of the Windows PowerShell host required by this module
-    # PowerShellHostVersion = ''
+    # PowerShellHostVersion  = ''
 
     # Minimum version of Microsoft .NET Framework required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
     # DotNetFrameworkVersion = ''
 
     # Minimum version of the common language runtime (CLR) required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
-    # CLRVersion = ''
+    # CLRVersion             = ''
 
     # Processor architecture (None, X86, Amd64) required by this module
-    # ProcessorArchitecture = ''
+    # ProcessorArchitecture  = ''
 
     # Modules that must be imported into the global environment prior to importing this module
-    # RequiredModules   = @()
+    # RequiredModules        = @()
 
     # Assemblies that must be loaded prior to importing this module
-    # RequiredAssemblies = @()
+    # RequiredAssemblies     = @()
 
     # Script files (.ps1) that are run in the caller's environment prior to importing this module.
-    # ScriptsToProcess = @()
+    # ScriptsToProcess       = @()
 
     # Type files (.ps1xml) to be loaded when importing this module
-    # TypesToProcess = @()
+    # TypesToProcess         = @()
 
     # Format files (.ps1xml) to be loaded when importing this module
-    # FormatsToProcess = @()
+    # FormatsToProcess       = @()
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-    # NestedModules = @()
+    # NestedModules          = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    # FunctionsToExport = '*'
+    FunctionsToExport = @(
+        'Test-Command'
+    )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    # CmdletsToExport   = '*'
+    CmdletsToExport   = @()
 
     # Variables to export from this module
     # VariablesToExport = '*'
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    # AliasesToExport   = '*'
+    AliasesToExport   = @()
 
     # DSC resources to export from this module
-    # DscResourcesToExport = @()
+    # DscResourcesToExport   = @()
 
     # List of all modules packaged with this module
-    # ModuleList = @()
+    # ModuleList             = @()
 
     # List of all files packaged with this module
-    # FileList = @()
+    # FileList               = @()
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData   = @{
+    PrivateData       = @{
 
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            # Tags = @()
+            Tags         = @()
 
             # A URL to the license for this module.
-            # LicenseUri = ''
+            LicenseUri   = 'https://github.com/kitforbes/UtilitiesPS/blob/master/LICENSE'
 
             # A URL to the main website for this project.
-            # ProjectUri = ''
+            ProjectUri   = 'https://github.com/kitforbes/UtilitiesPS'
 
             # A URL to an icon representing this module.
-            # IconUri = ''
+            # IconUri      = ''
 
             # ReleaseNotes of this module
-            # ReleaseNotes = ''
+            ReleaseNotes = 'https://github.com/kitforbes/UtilitiesPS/blob/master/CHANGELOG.md'
 
-        } # End of PSData hashtable
+        }
 
-    } # End of PrivateData hashtable
+    }
 
     # HelpInfo URI of this module
-    # HelpInfoURI = ''
+    # HelpInfoURI       = ''
 
     # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
     # DefaultCommandPrefix = ''

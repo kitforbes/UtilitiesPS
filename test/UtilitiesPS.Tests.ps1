@@ -1,4 +1,4 @@
-#Requires -Modules Pester
+#requires -modules Pester
 . $PSScriptRoot\Shared.ps1
 
 BeforeFeature
@@ -10,23 +10,23 @@ Describe $module -Tags ('unit') {
             $? | Should Be $true
         }
 
-        It "Has the root module $module.psm1" {
+        It "Has the root module '$module.psm1'" {
             "$moduleDir\$module.psm1" | Should Exist
         }
 
-        It "Has the manifest file for $module.psm1" {
+        It "Has the manifest file for '$module.psm1'" {
             "$moduleDir\$module.psd1" | Should Exist
             "$moduleDir\$module.psd1" | Should FileContentMatch "$module.psm1"
         }
 
-        It "$module has valid PowerShell code" {
+        It "'$module' has valid PowerShell code" {
             $psFile = Get-Content -Path "$moduleDir\$module.psm1" -ErrorAction Stop
             $errors = $null
             $null = [System.Management.Automation.PSParser]::Tokenize($psFile, [ref]$errors)
             $errors.Count | Should Be 0
         }
 
-        It "$module manifest has valid PowerShell code" {
+        It "'$module' manifest has valid PowerShell code" {
             $psFile = Get-Content -Path "$moduleDir\$module.psd1" -ErrorAction Stop
             $errors = $null
             $null = [System.Management.Automation.PSParser]::Tokenize($psFile, [ref]$errors)
@@ -52,7 +52,7 @@ Describe $module -Tags ('unit') {
 
             It 'Should be an advanced function' {
                 $function.FullName | Should FileContentMatch 'function'
-                $function.FullName | Should FileContentMatch 'cmdletbinding'
+                $function.FullName | Should FileContentMatch 'CmdletBinding'
                 $function.FullName | Should FileContentMatch 'param'
             }
 
