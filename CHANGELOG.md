@@ -6,3 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+### Added
+
+- Add module scaffolding
+- Add `Test-Command` function
+- Add `New-Directory`, `Measure-Directory` and `Remove-Directory` functions
+
+[Unreleased]: https://github.com/kitforbes/UtilitiesPS/compare/1e5f30c...HEAD

@@ -12,21 +12,29 @@ function Test-Command {
     [OutputType([Boolean])]
     param (
         # The name of the command to test.
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [String]
         $Name
     )
 
-    end {
+    begin {
+        Write-LogMessage -Message "Started execution"
+    }
+
+    process {
         try {
-            Write-Verbose -Message "Looking for '$Name'."
+            Write-LogMessage -Message "Looking for '$Name'."
             Get-Command -Name $Name -ErrorAction Stop | Out-Null
             return $true
         }
         catch {
-            Write-Verbose -Message "Couldn't find '$Name'."
+            Write-LogMessage -Message "Couldn't find '$Name'."
             $global:Error.RemoveAt(0)
             return $false
         }
+    }
+
+    end {
+        Write-LogMessage -Message "Finished execution"
     }
 }
