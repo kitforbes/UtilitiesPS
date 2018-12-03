@@ -12,5 +12,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add module scaffolding
 - Add `Test-Command` function
 - Add `New-Directory`, `Measure-Directory` and `Remove-Directory` functions
+- Add `New-Credential` function
 
 [Unreleased]: https://github.com/kitforbes/UtilitiesPS/compare/1e5f30c...HEAD

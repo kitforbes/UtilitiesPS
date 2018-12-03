@@ -56,8 +56,8 @@ Describe $module -Tags ('unit') {
                 $function.FullName | Should FileContentMatch 'param'
             }
 
-            It 'Should contain ''Write-Verbose'' blocks' {
-                $function.FullName | Should FileContentMatch 'Write-Verbose'
+            It 'Should contain ''Write-Verbose'' or ''Write-LogMessage'' blocks' {
+                $function.FullName | Should FileContentMatch 'Write-LogMessage|Write-Verbose'
             }
 
             It 'Has valid PowerShell code' {
