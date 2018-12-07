@@ -209,7 +209,7 @@ Task Sign -depends StageFiles -requiredVariables CertPath, SettingsPath, ScriptS
 Task BuildHelp -depends Build, BeforeBuildHelp, GenerateMarkdown, GenerateHelpFiles, AfterBuildHelp {
 }
 
-Task GenerateMarkdown -requiredVariables DefaultLocale, DocsRootDir, ModuleName, ModuleOutDir, HelpGenerationEnabled {
+Task GenerateMarkdown -requiredVariables DefaultLocale, DocsRootDir, ModuleName, ModuleOutDir, HelpGenerationIsEnabled {
     if (-not $HelpGenerationIsEnabled) {
         Write-Output "Help generation is not enabled. Skipping $($psake.context.currentTaskName) task."
         return
@@ -246,7 +246,7 @@ Task GenerateMarkdown -requiredVariables DefaultLocale, DocsRootDir, ModuleName,
     }
 }
 
-Task GenerateHelpFiles -requiredVariables DocsRootDir, ModuleName, ModuleOutDir, OutDir, HelpGenerationEnabled {
+Task GenerateHelpFiles -requiredVariables DocsRootDir, ModuleName, ModuleOutDir, OutDir, HelpGenerationIsEnabled {
     if (-not $HelpGenerationIsEnabled) {
         Write-Output "Help generation is not enabled. Skipping $($psake.context.currentTaskName) task."
         return
@@ -273,7 +273,7 @@ Task GenerateHelpFiles -requiredVariables DocsRootDir, ModuleName, ModuleOutDir,
 Task BuildUpdatableHelp -depends BuildHelp, BeforeBuildUpdatableHelp, CoreBuildUpdatableHelp, AfterBuildUpdatableHelp {
 }
 
-Task CoreBuildUpdatableHelp -requiredVariables DocsRootDir, ModuleName, UpdatableHelpOutDir, HelpGenerationEnabled {
+Task CoreBuildUpdatableHelp -requiredVariables DocsRootDir, ModuleName, UpdatableHelpOutDir, HelpGenerationIsEnabled {
     if (-not $HelpGenerationIsEnabled) {
         Write-Output "Help generation is not enabled. Skipping $($psake.context.currentTaskName) task."
         return
@@ -456,9 +456,8 @@ Task CorePublish -requiredVariables SettingsPath, ModuleOutDir {
         $publishParams['Repository'] = $PublishRepository
     }
 
-    # Consider not using -ReleaseNotes parameter when Update-ModuleManifest has been fixed.
     if ($ReleaseNotesPath) {
-        $publishParams['ReleaseNotes'] = @(Get-Content $ReleaseNotesPath)
+        Update-ModuleManifest -Path "$ModuleOutDir\$ModuleName.psd1" -ReleaseNotes @(Get-Content -Path $ReleaseNotesPath)
     }
 
     Write-Output "Calling Publish-Module..."
