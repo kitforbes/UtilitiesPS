@@ -45,9 +45,9 @@ Properties {
 }
 
 # Core task implementations.
-Task default -depends Build
+Task -name 'default' -depends 'Build'
 
-Task Init -requiredVariables OutDir {
+Task -name 'Init' -description '' -requiredVariables 'OutDir' -action {
     if (-not (Test-Path -LiteralPath $OutDir)) {
         New-Item $OutDir -ItemType Directory -Verbose:$VerbosePreference > $null
     }
@@ -56,7 +56,7 @@ Task Init -requiredVariables OutDir {
     }
 }
 
-Task Clean -depends Init -requiredVariables OutDir {
+Task -name 'Clean' -description '' -depends 'Init' -requiredVariables 'OutDir' -action {
     if ($OutDir.Length -gt 3) {
         Get-ChildItem $OutDir | Remove-Item -Recurse -Force -Verbose:$VerbosePreference
     }
@@ -65,10 +65,10 @@ Task Clean -depends Init -requiredVariables OutDir {
     }
 }
 
-Task StageFiles -depends Init, Clean, BeforeStageFiles, CoreStageFiles, AfterStageFiles {
+Task -name 'StageFiles' -description '' -depends 'Init', 'Clean', 'BeforeStageFiles', 'CoreStageFiles', 'AfterStageFiles' -action {
 }
 
-Task CoreStageFiles -requiredVariables ModuleOutDir, SrcRootDir {
+Task -name 'CoreStageFiles' -description '' -requiredVariables 'ModuleOutDir', 'SrcRootDir' -action {
     if (-not (Test-Path -LiteralPath $ModuleOutDir)) {
         New-Item $ModuleOutDir -ItemType Directory -Verbose:$VerbosePreference > $null
     }
@@ -79,15 +79,10 @@ Task CoreStageFiles -requiredVariables ModuleOutDir, SrcRootDir {
     Copy-Item -Path $SrcRootDir\* -Destination $ModuleOutDir -Recurse -Exclude $Exclude -Verbose:$VerbosePreference
 }
 
-Task Build -depends Init, Clean, BeforeBuild, StageFiles, Analyze, Sign, AfterBuild {
+Task -name 'Build' -description '' -depends 'Init', 'Clean', 'BeforeBuild', 'StageFiles', 'Analyze', 'Sign', 'AfterBuild' -action {
 }
 
-Task Analyze -depends StageFiles -requiredVariables ModuleOutDir, ScriptAnalysisEnabled, ScriptAnalysisFailBuildOnSeverityLevel {
-    if (-not $ScriptAnalysisEnabled) {
-        Write-Output "Script analysis is not enabled. Skipping $($psake.context.currentTaskName) task."
-        return
-    }
-
+Task -name 'Analyze' -description '' -depends 'StageFiles' -requiredVariables 'ModuleOutDir', 'ScriptAnalysisEnabled', 'ScriptAnalysisFailBuildOnSeverityLevel' -precondition { $ScriptAnalysisEnabled } -action {
     if (-not (Get-Module PSScriptAnalyzer -ListAvailable)) {
         Write-Output "PSScriptAnalyzer module is not installed. Skipping $($psake.context.currentTaskName) task."
         return
@@ -129,12 +124,7 @@ Task Analyze -depends StageFiles -requiredVariables ModuleOutDir, ScriptAnalysis
     }
 }
 
-Task Sign -depends StageFiles -requiredVariables CertPath, SettingsPath, ScriptSigningEnabled {
-    if (-not $ScriptSigningEnabled) {
-        Write-Output "Script signing is not enabled. Skipping $($psake.context.currentTaskName) task."
-        return
-    }
-
+Task -name 'Sign' -description '' -depends 'StageFiles' -requiredVariables 'CertPath', 'SettingsPath', 'ScriptSigningEnabled' -precondition { $ScriptSigningEnabled } -action {
     $validCodeSigningCerts = Get-ChildItem -Path $CertPath -CodeSigningCert -Recurse | Where-Object NotAfter -ge (Get-Date)
     if (-not $validCodeSigningCerts) {
         throw "There are no non-expired code-signing certificates in $CertPath. You can either install " +
@@ -206,15 +196,10 @@ Task Sign -depends StageFiles -requiredVariables CertPath, SettingsPath, ScriptS
     }
 }
 
-Task BuildHelp -depends Build, BeforeBuildHelp, GenerateMarkdown, GenerateHelpFiles, AfterBuildHelp {
+Task -name 'BuildHelp' -description '' -depends 'Build', 'BeforeBuildHelp', 'GenerateMarkdown', 'GenerateHelpFiles', 'AfterBuildHelp' -precondition { $HelpGenerationIsEnabled } -action {
 }
 
-Task GenerateMarkdown -requiredVariables DefaultLocale, DocsRootDir, ModuleName, ModuleOutDir, HelpGenerationIsEnabled {
-    if (-not $HelpGenerationIsEnabled) {
-        Write-Output "Help generation is not enabled. Skipping $($psake.context.currentTaskName) task."
-        return
-    }
-
+Task -name 'GenerateMarkdown' -description '' -requiredVariables 'DefaultLocale', 'DocsRootDir', 'ModuleName', 'ModuleOutDir', 'HelpGenerationIsEnabled' -precondition { $HelpGenerationIsEnabled } -action {
     if (-not (Get-Module platyPS -ListAvailable)) {
         Write-Output "platyPS module is not installed. Skipping $($psake.context.currentTaskName) task."
         return
@@ -246,12 +231,7 @@ Task GenerateMarkdown -requiredVariables DefaultLocale, DocsRootDir, ModuleName,
     }
 }
 
-Task GenerateHelpFiles -requiredVariables DocsRootDir, ModuleName, ModuleOutDir, OutDir, HelpGenerationIsEnabled {
-    if (-not $HelpGenerationIsEnabled) {
-        Write-Output "Help generation is not enabled. Skipping $($psake.context.currentTaskName) task."
-        return
-    }
-
+Task -name 'GenerateHelpFiles' -description '' -requiredVariables 'DocsRootDir', 'ModuleName', 'ModuleOutDir', 'OutDir', 'HelpGenerationIsEnabled' -precondition { $HelpGenerationIsEnabled } -action {
     if (-not (Get-Module platyPS -ListAvailable)) {
         Write-Output "platyPS module is not installed. Skipping $($psake.context.currentTaskName) task."
         return
@@ -270,15 +250,10 @@ Task GenerateHelpFiles -requiredVariables DocsRootDir, ModuleName, ModuleOutDir,
     }
 }
 
-Task BuildUpdatableHelp -depends BuildHelp, BeforeBuildUpdatableHelp, CoreBuildUpdatableHelp, AfterBuildUpdatableHelp {
+Task -name 'BuildUpdatableHelp' -description '' -depends 'BuildHelp', 'BeforeBuildUpdatableHelp', 'CoreBuildUpdatableHelp', 'AfterBuildUpdatableHelp' -precondition { $HelpGenerationIsEnabled } -action {
 }
 
-Task CoreBuildUpdatableHelp -requiredVariables DocsRootDir, ModuleName, UpdatableHelpOutDir, HelpGenerationIsEnabled {
-    if (-not $HelpGenerationIsEnabled) {
-        Write-Output "Help generation is not enabled. Skipping $($psake.context.currentTaskName) task."
-        return
-    }
-
+Task -name 'CoreBuildUpdatableHelp' -description '' -requiredVariables 'DocsRootDir', 'ModuleName', 'UpdatableHelpOutDir', 'HelpGenerationIsEnabled' -precondition { $HelpGenerationIsEnabled } -action {
     if (-not (Get-Module platyPS -ListAvailable)) {
         Write-Output "platyPS module is not installed. Skipping $($psake.context.currentTaskName) task."
         return
@@ -301,15 +276,10 @@ Task CoreBuildUpdatableHelp -requiredVariables DocsRootDir, ModuleName, Updatabl
     }
 }
 
-Task GenerateFileCatalog -depends Build, BuildHelp, BeforeGenerateFileCatalog, CoreGenerateFileCatalog, AfterGenerateFileCatalog {
+Task -name 'GenerateFileCatalog' -description '' -depends 'Build', 'BuildHelp', 'BeforeGenerateFileCatalog', 'CoreGenerateFileCatalog', 'AfterGenerateFileCatalog'  -precondition { $CatalogGenerationEnabled } -action {
 }
 
-Task CoreGenerateFileCatalog -requiredVariables CatalogGenerationEnabled, CatalogVersion, ModuleName, ModuleOutDir, OutDir {
-    if (-not $CatalogGenerationEnabled) {
-        Write-Output "FileCatalog generation is not enabled. Skipping $($psake.context.currentTaskName) task."
-        return
-    }
-
+Task -name 'CoreGenerateFileCatalog' -description '' -requiredVariables 'CatalogGenerationEnabled', 'CatalogVersion', 'ModuleName', 'ModuleOutDir', 'OutDir' -precondition { $CatalogGenerationEnabled } -action {
     if (-not (Get-Command Microsoft.PowerShell.Security\New-FileCatalog -ErrorAction SilentlyContinue)) {
         Write-Output "FileCatalog commands not available on this version of PowerShell. Skipping $($psake.context.currentTaskName) task."
         return
@@ -356,10 +326,10 @@ Task CoreGenerateFileCatalog -requiredVariables CatalogGenerationEnabled, Catalo
     ) -failureMessage "The catalog file is invalid: $fileCatalogValidity"
 }
 
-Task Install -depends Build, BuildHelp, GenerateFileCatalog, BeforeInstall, CoreInstall, AfterInstall {
+Task -name 'Install' -description '' -depends 'Build', 'BuildHelp', 'GenerateFileCatalog', 'BeforeInstall', 'CoreInstall', 'AfterInstall' -action {
 }
 
-Task CoreInstall -requiredVariables ModuleOutDir {
+Task -name 'CoreInstall' -description '' -requiredVariables 'ModuleOutDir' -action {
     if (-not (Test-Path -LiteralPath $InstallPath)) {
         Write-Verbose 'Creating install directory'
         New-Item -Path $InstallPath -ItemType Directory -Verbose:$VerbosePreference > $null
@@ -369,7 +339,7 @@ Task CoreInstall -requiredVariables ModuleOutDir {
     Write-Output "Module installed into $InstallPath"
 }
 
-Task Test -depends Build -requiredVariables TestRootDir, ModuleName, CodeCoverageEnabled, CodeCoverageFiles {
+Task -name 'Test' -description '' -depends 'Build' -requiredVariables 'TestRootDir', 'ModuleName', 'CodeCoverageEnabled', 'CodeCoverageFiles' -action {
     if (-not (Get-Module -Name Pester -ListAvailable)) {
         Write-Output "Pester module is not installed. Skipping $($psake.context.currentTaskName) task."
         return
@@ -418,10 +388,10 @@ Task Test -depends Build -requiredVariables TestRootDir, ModuleName, CodeCoverag
     }
 }
 
-Task Publish -depends Build, Test, BuildHelp, GenerateFileCatalog, BeforePublish, CorePublish, AfterPublish {
+Task -name 'Publish' -description '' -depends 'Build', 'Test', 'BuildHelp', 'GenerateFileCatalog', 'BeforePublish', 'CorePublish', 'AfterPublish' -action {
 }
 
-Task CorePublish -requiredVariables SettingsPath, ModuleOutDir {
+Task -name 'CorePublish' -description '' -requiredVariables 'SettingsPath', 'ModuleOutDir' -action {
     $publishParams = @{
         Path        = $ModuleOutDir
         NuGetApiKey = $NuGetApiKey
@@ -465,18 +435,18 @@ Task CorePublish -requiredVariables SettingsPath, ModuleOutDir {
 }
 
 # Utility tasks
-Task ? -description 'Lists the available tasks' {
+Task -name 'Help' -description 'Lists the available tasks' -alias '?' -action {
     Write-Output "Available tasks:"
     $psake.context.Peek().Tasks.Keys | Sort-Object
 }
 
-Task RemoveApiKey -requiredVariables SettingsPath {
+Task -name 'RemoveApiKey' -description '' -requiredVariables 'SettingsPath' -action {
     if (GetSetting -Path $SettingsPath -Key NuGetApiKey) {
         RemoveSetting -Path $SettingsPath -Key NuGetApiKey
     }
 }
 
-Task StoreApiKey -requiredVariables SettingsPath {
+Task -name 'StoreApiKey' -description '' -requiredVariables 'SettingsPath' -action {
     $promptForKeyCredParams = @{
         DestinationPath = $SettingsPath
         Message         = 'Enter your NuGet API key in the password field'
@@ -487,7 +457,7 @@ Task StoreApiKey -requiredVariables SettingsPath {
     Write-Output "The NuGetApiKey has been stored in $SettingsPath"
 }
 
-Task ShowApiKey -requiredVariables SettingsPath {
+Task -name 'ShowApiKey' -description '' -requiredVariables 'SettingsPath' -action {
     $OFS = ""
     if ($NuGetApiKey) {
         Write-Output "The embedded (partial) NuGetApiKey is: $($NuGetApiKey[0..7])"
@@ -503,7 +473,7 @@ Task ShowApiKey -requiredVariables SettingsPath {
     Write-Output "To see the full key, use the task 'ShowFullApiKey'"
 }
 
-Task ShowFullApiKey -requiredVariables SettingsPath {
+Task -name 'ShowFullApiKey' -description '' -requiredVariables 'SettingsPath' -action {
     if ($NuGetApiKey) {
         Write-Output "The embedded NuGetApiKey is: $NuGetApiKey"
     }
@@ -515,20 +485,20 @@ Task ShowFullApiKey -requiredVariables SettingsPath {
     }
 }
 
-Task RemoveCertSubjectName -requiredVariables SettingsPath {
+Task -name 'RemoveCertSubjectName' -description '' -requiredVariables 'SettingsPath' -action {
     if (GetSetting -Path $SettingsPath -Key CertSubjectName) {
         RemoveSetting -Path $SettingsPath -Key CertSubjectName
     }
 }
 
-Task StoreCertSubjectName -requiredVariables SettingsPath {
+Task -name 'StoreCertSubjectName' -description '' -requiredVariables 'SettingsPath' -action {
     $certSubjectName = 'CN='
     $certSubjectName += Read-Host -Prompt 'Enter the certificate subject name for script signing. Use exact casing, CN= prefix will be added'
     SetSetting -Key CertSubjectName -Value $certSubjectName -Path $SettingsPath
     Write-Output "The new certificate subject name '$certSubjectName' has been stored in ${SettingsPath}."
 }
 
-Task ShowCertSubjectName -requiredVariables SettingsPath {
+Task -name 'ShowCertSubjectName' -description '' -requiredVariables 'SettingsPath' -action {
     $CertSubjectName = GetSetting -Path $SettingsPath -Key CertSubjectName
     Write-Output "The stored certificate is: $CertSubjectName"
 

@@ -133,27 +133,27 @@ Task AfterBuild {
 }
 
 # Executes before the BuildHelp task.
-Task BeforeBuildHelp {
+Task BeforeBuildHelp -precondition { $HelpGenerationIsEnabled } {
 }
 
 # Executes after the BuildHelp task.
-Task AfterBuildHelp {
+Task AfterBuildHelp -precondition { $HelpGenerationIsEnabled } {
 }
 
 # Executes before the BuildUpdatableHelp task.
-Task BeforeBuildUpdatableHelp {
+Task BeforeBuildUpdatableHelp -precondition { $HelpGenerationIsEnabled } {
 }
 
 # Executes after the BuildUpdatableHelp task.
-Task AfterBuildUpdatableHelp {
+Task AfterBuildUpdatableHelp -precondition { $HelpGenerationIsEnabled } {
 }
 
 # Executes before the GenerateFileCatalog task.
-Task BeforeGenerateFileCatalog {
+Task BeforeGenerateFileCatalog -precondition { $CatalogGenerationEnabled } {
 }
 
 # Executes after the GenerateFileCatalog task.
-Task AfterGenerateFileCatalog {
+Task AfterGenerateFileCatalog -precondition { $CatalogGenerationEnabled } {
 }
 
 # Executes before the Install task.

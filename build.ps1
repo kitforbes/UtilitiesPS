@@ -24,6 +24,7 @@ end {
         buildFile = "$PSScriptRoot\build.psake.ps1"
         taskList  = $Task
         nologo    = $true
+        notr      = $true
         Verbose   = $VerbosePreference
     }
 
