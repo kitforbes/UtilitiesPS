@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add setting to disable help generation
+
 ## [v0.1.0] (2018-12-07)
 
 ### Added

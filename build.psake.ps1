@@ -209,13 +209,18 @@ Task Sign -depends StageFiles -requiredVariables CertPath, SettingsPath, ScriptS
 Task BuildHelp -depends Build, BeforeBuildHelp, GenerateMarkdown, GenerateHelpFiles, AfterBuildHelp {
 }
 
-Task GenerateMarkdown -requiredVariables DefaultLocale, DocsRootDir, ModuleName, ModuleOutDir {
+Task GenerateMarkdown -requiredVariables DefaultLocale, DocsRootDir, ModuleName, ModuleOutDir, HelpGenerationEnabled {
+    if (-not $HelpGenerationIsEnabled) {
+        Write-Output "Help generation is not enabled. Skipping $($psake.context.currentTaskName) task."
+        return
+    }
+
     if (-not (Get-Module platyPS -ListAvailable)) {
         Write-Output "platyPS module is not installed. Skipping $($psake.context.currentTaskName) task."
         return
     }
 
-    $moduleInfo = Import-Module $ModuleOutDir\$ModuleName.psd1 -Global -Force -PassThru
+    $moduleInfo = Import-Module "$ModuleOutDir\$ModuleName.psd1" -Global -Force -PassThru
 
     try {
         if ($moduleInfo.ExportedCommands.Count -eq 0) {
@@ -241,7 +246,12 @@ Task GenerateMarkdown -requiredVariables DefaultLocale, DocsRootDir, ModuleName,
     }
 }
 
-Task GenerateHelpFiles -requiredVariables DocsRootDir, ModuleName, ModuleOutDir, OutDir {
+Task GenerateHelpFiles -requiredVariables DocsRootDir, ModuleName, ModuleOutDir, OutDir, HelpGenerationEnabled {
+    if (-not $HelpGenerationIsEnabled) {
+        Write-Output "Help generation is not enabled. Skipping $($psake.context.currentTaskName) task."
+        return
+    }
+
     if (-not (Get-Module platyPS -ListAvailable)) {
         Write-Output "platyPS module is not installed. Skipping $($psake.context.currentTaskName) task."
         return
@@ -263,7 +273,12 @@ Task GenerateHelpFiles -requiredVariables DocsRootDir, ModuleName, ModuleOutDir,
 Task BuildUpdatableHelp -depends BuildHelp, BeforeBuildUpdatableHelp, CoreBuildUpdatableHelp, AfterBuildUpdatableHelp {
 }
 
-Task CoreBuildUpdatableHelp -requiredVariables DocsRootDir, ModuleName, UpdatableHelpOutDir {
+Task CoreBuildUpdatableHelp -requiredVariables DocsRootDir, ModuleName, UpdatableHelpOutDir, HelpGenerationEnabled {
+    if (-not $HelpGenerationIsEnabled) {
+        Write-Output "Help generation is not enabled. Skipping $($psake.context.currentTaskName) task."
+        return
+    }
+
     if (-not (Get-Module platyPS -ListAvailable)) {
         Write-Output "platyPS module is not installed. Skipping $($psake.context.currentTaskName) task."
         return
