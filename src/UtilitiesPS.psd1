@@ -1,7 +1,7 @@
 @{
 
     # Script module or binary module file associated with this manifest.
-    RootModule = 'UtilitiesPS.psm1'
+    RootModule        = 'UtilitiesPS.psm1'
 
     # Version number of this module.
     ModuleVersion     = '0.0.0'
@@ -10,19 +10,19 @@
     # CompatiblePSEditions = @()
 
     # ID used to uniquely identify this module
-    GUID = 'db2b45da-fe64-4d8b-b15e-da9a5f73b8e9'
+    GUID              = 'db2b45da-fe64-4d8b-b15e-da9a5f73b8e9'
 
     # Author of this module
-    Author = 'Chris Forbes'
+    Author            = 'Chris Forbes'
 
     # Company or vendor of this module
-    CompanyName = 'Chris Forbes'
+    CompanyName       = 'Chris Forbes'
 
     # Copyright statement for this module
-    Copyright = '(c) 2018 Chris Forbes. All rights reserved.'
+    Copyright         = '(c) 2018 Chris Forbes. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description = 'A collection of utility functions.'
+    Description       = 'A collection of utility functions.'
 
     # Minimum version of the Windows PowerShell engine required by this module
     # PowerShellVersion = ''
@@ -71,13 +71,13 @@
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport = @()
+    CmdletsToExport   = @()
 
     # Variables to export from this module
     # VariablesToExport = @()
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport = @()
+    AliasesToExport   = @()
 
     # DSC resources to export from this module
     # DscResourcesToExport = @()
@@ -89,18 +89,18 @@
     # FileList = @()
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData = @{
+    PrivateData       = @{
 
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            # Tags = @()
+            Tags         = @('helper', 'utility')
 
             # A URL to the license for this module.
-            LicenseUri = 'https://github.com/kitforbes/UtilitiesPS/blob/master/LICENSE'
+            # LicenseUri   = 'https://github.com/kitforbes/UtilitiesPS/blob/master/LICENSE'
 
             # A URL to the main website for this project.
-            ProjectUri = 'https://github.com/kitforbes/UtilitiesPS'
+            ProjectUri   = 'https://github.com/kitforbes/UtilitiesPS'
 
             # A URL to an icon representing this module.
             # IconUri = ''
