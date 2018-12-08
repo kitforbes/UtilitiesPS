@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Add setting to disable help generation
 
+### Changed
+
+- Disable catalog generation
+
 ## [v0.1.0] (2018-12-07)
 
 ### Added
