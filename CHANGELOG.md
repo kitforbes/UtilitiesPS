@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v0.1.1] (2018-12-08)
+
 ### Added
 
 - Add setting to disable help generation
@@ -24,5 +26,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add `New-Directory`, `Measure-Directory` and `Remove-Directory` functions
 - Add `New-Credential` function
 
-[Unreleased]: https://github.com/kitforbes/UtilitiesPS/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/kitforbes/UtilitiesPS/compare/v0.1.1...HEAD
+[v0.1.1]: https://github.com/kitforbes/UtilitiesPS/compare/v0.1.0...v0.1.1
 [v0.1.0]: https://github.com/kitforbes/UtilitiesPS/compare/1e5f30c...v0.1.0
