@@ -2,24 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
-
 ## [Unreleased]
+
+- Add `Test-PendingReboot` function
 
 ## [v0.1.1] (2018-12-08)
 
-### Added
-
 - Add setting to disable help generation
-
-### Changed
-
 - Disable catalog generation
 
 ## [v0.1.0] (2018-12-07)
-
-### Added
 
 - Add module scaffolding
 - Add `Test-Command` function
