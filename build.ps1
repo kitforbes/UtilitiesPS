@@ -4,7 +4,11 @@ param (
     [Parameter(Mandatory = $false)]
     [ValidateSet('Clean', 'Build', 'Sign', 'BuildHelp', 'Install', 'Test', 'Publish')]
     [String]
-    $Task = 'Test'
+    $Task = 'Test',
+    # NuGet API key used during publishing.
+    [Parameter(Mandatory = $false)]
+    [String]
+    $NuGetApiKey
 )
 
 begin {
@@ -26,6 +30,10 @@ end {
         nologo    = $true
         notr      = $true
         Verbose   = $VerbosePreference
+    }
+
+    if ($NuGetApiKey) {
+        $parameters.Add('NuGetApiKey', $NuGetApiKey)
     }
 
     Write-Verbose -Message "Executing '$Task' task."

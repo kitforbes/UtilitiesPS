@@ -49,19 +49,19 @@ Task -name 'default' -depends 'Build'
 
 Task -name 'Init' -description '' -requiredVariables 'OutDir' -action {
     if (-not (Test-Path -LiteralPath $OutDir)) {
-        New-Item $OutDir -ItemType Directory -Verbose:$VerbosePreference > $null
+        New-Item -Path $OutDir -ItemType Directory -Verbose:$VerbosePreference > $null
     }
     else {
-        Write-Verbose "$($psake.context.currentTaskName) - directory already exists '$OutDir'."
+        Write-Verbose -Message "$($psake.context.currentTaskName) - directory already exists '$OutDir'."
     }
 }
 
 Task -name 'Clean' -description '' -depends 'Init' -requiredVariables 'OutDir' -action {
     if ($OutDir.Length -gt 3) {
-        Get-ChildItem $OutDir | Remove-Item -Recurse -Force -Verbose:$VerbosePreference
+        Get-ChildItem -Path $OutDir | Remove-Item -Recurse -Force -Verbose:$VerbosePreference
     }
     else {
-        Write-Verbose "$($psake.context.currentTaskName) - `$OutDir '$OutDir' must be longer than 3 characters."
+        Write-Verbose -Message "$($psake.context.currentTaskName) - `$OutDir '$OutDir' must be longer than 3 characters."
     }
 }
 
@@ -73,7 +73,7 @@ Task -name 'CoreStageFiles' -description '' -requiredVariables 'ModuleOutDir', '
         New-Item $ModuleOutDir -ItemType Directory -Verbose:$VerbosePreference > $null
     }
     else {
-        Write-Verbose "$($psake.context.currentTaskName) - directory already exists '$ModuleOutDir'."
+        Write-Verbose -Message "$($psake.context.currentTaskName) - directory already exists '$ModuleOutDir'."
     }
 
     Copy-Item -Path $SrcRootDir\* -Destination $ModuleOutDir -Recurse -Exclude $Exclude -Verbose:$VerbosePreference
