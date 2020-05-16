@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Add `Get-TimeSinceReboot` function
 - Add `Set-EnvironmentVariable` function
 - Add `Test-Administrator` function
 - Add `Test-PendingReboot` function
