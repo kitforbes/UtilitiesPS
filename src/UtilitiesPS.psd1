@@ -67,6 +67,7 @@
         'New-Directory',
         'Remove-Directory',
         'Remove-File',
+        'Set-EnvironmentVariable',
         'Test-Command',
         'Test-PendingReboot'
     )
