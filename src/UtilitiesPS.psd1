@@ -68,6 +68,7 @@
         'Remove-Directory',
         'Remove-File',
         'Set-EnvironmentVariable',
+        'Test-Administrator',
         'Test-Command',
         'Test-PendingReboot'
     )

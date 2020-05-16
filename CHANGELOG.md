@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - Add `Set-EnvironmentVariable` function
+- Add `Test-Administrator` function
 - Add `Test-PendingReboot` function
 
 ## [v0.1.1] (2018-12-08)
