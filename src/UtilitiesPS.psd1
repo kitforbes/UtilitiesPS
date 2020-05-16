@@ -66,6 +66,7 @@
         'Measure-Directory',
         'New-Credential',
         'New-Directory',
+        'Read-Path',
         'Remove-Directory',
         'Remove-File',
         'Set-EnvironmentVariable',
